@@ -14,6 +14,7 @@ function EmailForm() {
       alert(res.data.message);
     } catch (err) {
       alert("Failed to send OTP");
+      console.log(err);
     }
   };
 

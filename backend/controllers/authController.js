@@ -72,10 +72,22 @@ exports.verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
 
+    console.log("Email:", email);
+    console.log("OTP Entered:", otp);
+
     const user = await User.findOne({ email });
 
-    if (!user || user.otp !== otp || user.otpExpires < Date.now()) {
-      return res.status(400).json({ message: "Invalid OTP" });
+    console.log("User OTP:", user?.otp);
+    console.log("OTP Expires:", user?.otpExpires);
+
+    if (
+      !user ||
+      String(user.otp) !== String(otp) ||
+      user.otpExpires < Date.now()
+    ) {
+      return res.status(400).json({
+        message: "Invalid OTP"
+      });
     }
 
     const token = jwt.sign(
@@ -89,9 +101,49 @@ exports.verifyOtp = async (req, res) => {
 
     await user.save();
 
-    res.json({ token });
+    res.json({
+      message: "OTP Verified Successfully",
+      token
+    });
 
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error(err);
+    res.status(500).json({
+      message: err.message
+    });
+  }
+};
+exports.sendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      });
+    }
+
+    const otp = generateOtp();
+
+    console.log("Generated OTP:", otp);
+
+    user.otp = otp;
+    user.otpExpires = Date.now() + 5 * 60 * 1000;
+
+    await user.save();
+
+    await sendOtpEmail(email, otp);
+
+    res.json({
+      message: "OTP sent successfully"
+    });
+
+  } catch (err) {
+    console.error("SEND OTP ERROR:", err);
+    res.status(500).json({
+      message: err.message
+    });
   }
 };
