@@ -16,7 +16,7 @@ function OTPForm() {
       );
 
       alert("OTP Verified Successfully");
-      console.log(res.data);
+      console.log("Response:", res.data);
 
     } catch (err) {
       alert("Invalid OTP");
