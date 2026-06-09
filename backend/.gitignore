@@ -1,22 +1,15 @@
-# dependencies
+# Dependencies
 node_modules/
 
-# env files
+# Environment variables
 .env
 
-# logs
-logs
+# Logs
 *.log
 npm-debug.log*
 
-# OS files
+# OS / editor files
 .DS_Store
 Thumbs.db
-
-# IDE files
 .vscode/
 .idea/
-
-# build output (if any)
-dist/
-build/
