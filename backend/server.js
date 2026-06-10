@@ -18,10 +18,10 @@ app.get("/", (req, res) => {
 
 // Routes get mounted here as we build them:
 app.use("/api/auth", require("./routes/authRoutes"));
-// app.use("/api/questions", require("./routes/questionRoutes"));
+app.use("/api/questions", require("./routes/questionRoutes"));
 // app.use("/api/submissions", require("./routes/submissionRoutes"));
 // app.use("/api/leaderboard", require("./routes/leaderboardRoutes"));
-// app.use("/api/admin", require("./routes/adminRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes"));
 
 app.use(notFound);
 app.use(errorHandler);

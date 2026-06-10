@@ -151,7 +151,7 @@ const loginUser = async (req, res, next) => {
     if (!user.verified) {
       return res.status(403).json({ success: false, message: "Please verify your email before logging in." });
     }
-
+    
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       return res.status(401).json({ success: false, message: "Invalid credentials." });
